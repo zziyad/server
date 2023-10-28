@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-pure",
+  "version": "13.0.0",
+  "description": "Pure NodeJS application runtime",
+  "license": "MIT",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "npm run lint && tsc",
+    "lint": "eslint . && prettier -c \"**/*.js\" \"**/*.ts\"",
+    "fmt": "prettier --write \"**/*.js\" \"**/*.ts\""
+  },
+  "engines": {
+    "node": "16 || 18 || 19 || 20"
+  },
+  "dependencies": {
+    "metasql": "^3.0.0-alpha.2",
+    "metautil": "^3.11.0",
+    "pg": "^8.11.1",
+    "ws": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.4",
+    "@types/pg": "^8.10.2",
+    "@types/ws": "^8.5.5",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
+  }
+}

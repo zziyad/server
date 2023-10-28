@@ -1,0 +1,63 @@
+id,type,guestname,guestlastname,f_arrivaldate,f_departuredate,upgraded_firstname,upgraded_lastname,verificationlevel,upsellamount,totalupsellamount,incentivefee,roomnumber,createdat,notes,roomtype,rtc,adult,child
+9,BFS,epoekrpoekpo,oewrpoerpowj,08.08.2023,24.08.2023,test1,test1,4,18.00,288.00,28.80,343,Sun Jul 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+24,BFS,ziyad,Ziyad,08.08.2023,09.08.2023,test1,test1,5,36.00,36.00,3.60,342,Fri Jul 28 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,2,0
+29,BFS,test1,test1,10.08.2023,12.08.2023,,,3,18.00,36.00,3.60,345,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+31,BFS,epoekrpoekpo,oewrpoerpowj,10.08.2023,13.08.2023,,,5,18.00,54.00,5.40,678,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+32,BFS,epoekrpoekpo,oewrpoerpowj,10.08.2023,13.08.2023,,,5,18.00,54.00,5.40,686,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+37,BFS,roomNumber,roomNumber,13.08.2023,16.08.2023,test1,test1,0,27.00,81.00,8.10,349,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,1
+40,BFS,TeST,TeST,15.08.2023,17.08.2023,test1,test1,4,45.00,90.00,9.00,456,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,2,1
+42,BFS,kokoko,okokokok,20.08.2023,29.08.2023,test1,test1,3,54.00,486.00,48.60,213,Sun Jul 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,2,2
+43,BFS,aaaaaa,bbbbbbbb,21.08.2023,24.08.2023,test11,test11,2,54.00,162.00,16.20,253,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,2,2
+44,BFS,upsell,upsell,09.08.2023,21.08.2023,test1,test1,3,18.00,216.00,21.60,263,Fri Jul 21 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+45,BFS,vite-template-react,vite-template-react,05.08.2023,16.08.2023,test1,test1,2,18.00,198.00,19.80,634,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+46,BFS,vite-template-react2,vite-template-react2,04.08.2023,31.08.2023,test1,test1,3,18.00,486.00,48.60,323,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+48,BFS,hjhj,oewrpoerpowj,04.08.2023,16.08.2023,test1,test1,2,18.00,216.00,21.60,756,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+49,BFS,epoekrpoekpo,ryruirui,04.08.2023,17.08.2023,test1,test1,3,18.00,234.00,23.40,342,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+50,BFS,epoekrpoekpo,roomNumber,05.08.2023,24.08.2023,test1,test1,3,18.00,342.00,34.20,246,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+51,BFS,::ffff:127.0.0.1,::ffff:127.0.0.1,12.08.2023,16.08.2023,test1,test1,0,18.00,72.00,7.20,238,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+52,BFS,api.upsell.create,api.upsell.create,05.08.2023,17.08.2023,test1,test1,0,18.00,216.00,21.60,744,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+53,BFS,upsellReportIdupsellReportId,upsellReportIdupsellReportId,05.08.2023,16.08.2023,test1,test1,0,18.00,198.00,19.80,364,Wed Aug 23 2023 08:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+54,BFS,roomNumber,oewrpoerpowj,04.08.2023,17.08.2023,test1,test1,2,18.00,234.00,23.40,577,Thu Aug 03 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+55,BFS,wewewewe,wewweewew,11.08.2023,24.08.2023,test1,test1,2,18.00,234.00,23.40,456,Mon Aug 07 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+65,BFS,roomNumber22,roomNumber22,05.08.2023,25.08.2023,test1,test1,3,18.00,360.00,36.00,345,Wed Aug 23 2023 17:50:33 GMT+0400 (Azerbaijan Standard Time),roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22roomNumber22,,,1,0
+66,BFS,epoekrpoekpo,oewrpoerpowj,05.08.2023,15.08.2023,test1,test1,3,18.00,180.00,18.00,234,Wed Aug 23 2023 17:52:39 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+67,BFS,Breackfast1,Breackfast1,19.08.2023,02.09.2023,test11,test11,4,36.00,504.00,50.40,456,Thu Aug 24 2023 08:48:55 GMT+0400 (Azerbaijan Standard Time),Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1Breackfast1,,,2,0
+71,BFS,yjfyyu,test1,30.08.2023,31.08.2023,test1,test1,2,63.00,63.00,6.30,333,Wed Aug 30 2023 19:03:19 GMT+0400 (Azerbaijan Standard Time),BREAKFAST UPSELL NOTES,,,2,3
+72,BFS,TESTTEST,TESTTEST,31.08.2023,01.09.2023,test1,test1,2,18.00,18.00,1.80,444,Thu Aug 31 2023 09:10:20 GMT+0400 (Azerbaijan Standard Time),TESTTEST TESTTEST TESTTEST TESTTEST ,,,1,0
+74,BFS,TEST2,TEST2,07.09.2023,10.09.2023,test1,test1,2,36.00,108.00,10.80,223,Thu Sep 07 2023 11:02:38 GMT+0400 (Azerbaijan Standard Time),,,,2,0
+75,BFS,TEST2.2,TEST2.2,07.09.2023,10.09.2023,test1,test1,2,18.00,54.00,5.40,234,Thu Sep 07 2023 11:06:34 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+79,BFS,TEST3,TEST3,08.09.2023,14.09.2023,test1,test1,2,18.00,108.00,10.80,345,Fri Sep 08 2023 13:05:48 GMT+0400 (Azerbaijan Standard Time),TEST3 TEST3 TEST3,,,1,0
+89,BFS,TEST4,TEST4,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,123,Tue Sep 19 2023 10:27:21 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+90,BFS,TEST5,TEST5,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,327,Tue Sep 19 2023 10:41:33 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+93,BFS,TEST6,TEST6,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,345,Tue Sep 19 2023 11:15:23 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+95,BFS,TEST7,TEST7,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,384,Tue Sep 19 2023 11:30:51 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+96,BFS,TEST8,TEST8,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,319,Tue Sep 19 2023 11:35:08 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+97,BFS,TEST4,TEST4,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,234,Tue Sep 19 2023 14:19:01 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+103,BFS,TEST10,TEST10,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,284,Tue Sep 19 2023 17:09:29 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+104,BFS,dwodkwo,poejdpowj,19.09.2023,26.09.2023,,,2,18.00,126.00,12.60,343,Tue Sep 19 2023 18:30:35 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+105,BFS,dwodkwo,poejdpowj,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,343,Tue Sep 19 2023 18:35:51 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+106,BFS,epoekrpoekpo,oewrpoerpowj,19.09.2023,26.09.2023,test1,test1,2,18.00,126.00,12.60,234,Tue Sep 19 2023 19:04:45 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+107,BFS,TEST11,TEST11,20.09.2023,20.09.2023,test1,test1,2,18.00,0.00,0.00,564,Wed Sep 20 2023 08:16:06 GMT+0400 (Azerbaijan Standard Time),,,,1,0
+33,RM,test22,test22,13.08.2023,15.08.2023,test4,test4,3,50.00,100.00,10.00,765,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,QUEN,KING,,
+57,RM,epoekrpoekpo,ryruirui,23.08.2023,31.08.2023,test1,test1,3,17.00,136.00,13.60,232,Sat Jul 22 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,DTWN,KING,,
+34,RM,test222,test222,13.08.2023,15.08.2023,test4,test4,3,100.00,200.00,20.00,434,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,JSTE,KING,,
+98,RM,TEST5,TEST5,19.09.2023,25.09.2023,test1,test1,2,10.00,60.00,6.00,234,Tue Sep 19 2023 14:53:07 GMT+0400 (Azerbaijan Standard Time),,KING,TWIN,,
+64,RM,eeqwe,wewe,05.08.2023,14.08.2023,test1,test1,3,50.00,450.00,45.00,234,Wed Aug 23 2023 17:46:47 GMT+0400 (Azerbaijan Standard Time),bu.roomNumber AS upsell_roomNumber,
+,KING,QUEN,,
+77,RM,TEST2.2,TEST2.2,07.09.2023,11.09.2023,test1,test1,2,17.00,68.00,6.80,346,Thu Sep 07 2023 13:27:51 GMT+0400 (Azerbaijan Standard Time),,KING,SRPM,,
+73,RM,TESTTEST1,TESTTEST1,31.08.2023,02.09.2023,test1,test1,2,50.00,100.00,10.00,555,Thu Aug 31 2023 09:15:21 GMT+0400 (Azerbaijan Standard Time),TESTTEST TESTTEST TESTTEST TESTTEST TESTTEST ,KING,QUEN,,
+56,RM,epoekrpoekpo,nhjh,10.08.2023,24.08.2023,test1,test1,0,50.00,700.00,70.00,567,Sat Jul 22 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,QUEN,KING,,
+108,RM,TEST7,TEST7,20.09.2023,27.09.2023,test1,test1,2,17.00,119.00,11.90,385,Wed Sep 20 2023 09:49:18 GMT+0400 (Azerbaijan Standard Time),,KING,SRPM,,
+78,RM,TETS3,TETS3,08.09.2023,12.09.2023,test1,test1,2,17.00,68.00,6.80,344,Fri Sep 08 2023 13:00:18 GMT+0400 (Azerbaijan Standard Time),,KING,DTWN,,
+68,RM,aaaaaaaaaaa,bbbbbbbbbbb,25.08.2023,29.08.2023,test1,test1,2,17.00,68.00,6.80,234,Fri Aug 25 2023 13:22:13 GMT+0400 (Azerbaijan Standard Time),,KING,SRPM,,
+38,RM,new1,new1,14.08.2023,16.08.2023,test2,test2,3,17.00,34.00,3.40,454,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,DTWN,KING,,
+28,RM,test,test,10.08.2023,13.08.2023,,,3,50.00,150.00,15.00,565,Sun Jul 30 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,QUEN,KING,,
+30,RM,testUser,testUser,10.08.2023,20.08.2023,,,3,100.00,1000.00,100.00,567,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,JSTE,KING,,
+76,RM,TETS2,TETS2,07.09.2023,12.09.2023,test1,test1,2,10.00,50.00,5.00,234,Thu Sep 07 2023 13:24:58 GMT+0400 (Azerbaijan Standard Time),,KING,TWIN,,
+69,RM,test1test1test1test1,test1test1test1test1test1,28.08.2023,30.08.2023,test1,test1,3,10.00,20.00,2.00,345,Mon Aug 28 2023 20:23:23 GMT+0400 (Azerbaijan Standard Time),NO notes for test1,KING,TWIN,,
+41,RM,testtest,testtest,15.08.2023,17.08.2023,test1,test1,2,50.00,100.00,10.00,765,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,QUEN,KING,,
+36,RM,test55,test55,13.08.2023,15.08.2023,test1,test1,3,50.00,100.00,10.00,343,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,QUEN,KING,,
+58,RM,roomUpsell,roomUpsell,23.08.2023,26.08.2023,test1,test1,2,17.00,51.00,5.10,233,Wed Aug 23 2023 09:50:13 GMT+0400 (Azerbaijan Standard Time),,DTWN,KING,,
+70,RM,epoekrpoekpo,roomNumber,30.08.2023,31.08.2023,test1,test1,2,17.00,17.00,1.70,234,Wed Aug 30 2023 19:00:26 GMT+0400 (Azerbaijan Standard Time),ANY NOTES ,KING,DTWN,,
+35,RM,teast!!,test!!,13.08.2023,15.08.2023,test1,test1,3,85.00,170.00,17.00,345,Wed Aug 23 2023 07:58:16 GMT+0400 (Azerbaijan Standard Time),,JSTE,SRPM,,
+63,RM,roomtyperoomtype,roomtyperoomtype,11.08.2023,22.08.2023,test1,test1,3,50.00,550.00,55.00,567,Wed Aug 23 2023 17:43:14 GMT+0400 (Azerbaijan Standard Time),roomtype ,KING,QUEN,,
