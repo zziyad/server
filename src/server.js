@@ -1,19 +1,17 @@
 'use strict';
 
 const http = require('node:http');
-const fs = require('node:fs');
-const path = require('node:path');
 const crypto = require('node:crypto');
 const { EventEmitter } = require('node:events');
 const ws = require('ws');
 const { receiveBody, jsonParse } = require('../lib/common.js');
 const transport = require('./transport.js');
-const { HttpTransport, WsTransport, MIME_TYPES, HEADERS } = transport;
+const { HttpTransport, WsTransport } = transport;
 const { SessionManager } = require('./sessionManager.js');
 
 const createProxy = (data, save, logger) => {
   let saveTimeout = null;
-  
+
   return new Proxy(data, {
     get: (data, key) => {
       const value = Reflect.get(data, key);
@@ -21,13 +19,13 @@ const createProxy = (data, save, logger) => {
     },
     set: (data, key, value) => {
       const success = Reflect.set(data, key, value);
-      
+
       if (success && save) {
         // Debounce save operations to avoid excessive writes
         if (saveTimeout) {
           clearTimeout(saveTimeout);
         }
-        
+
         saveTimeout = setTimeout(() => {
           // Create a clean copy of the data to avoid duplication
           const cleanData = { ...data };
@@ -36,7 +34,7 @@ const createProxy = (data, save, logger) => {
           });
         }, 100); // 100ms debounce
       }
-      
+
       return success;
     },
   });
@@ -46,17 +44,25 @@ class Session {
   constructor(token, data, server) {
     this.token = token;
     const { application, console } = server;
-    
+
     // Create proxy with debounced save
-    this.state = createProxy(data, async (sessionData) => {
-      try {
-        // Update session directly in Redis without adding metadata
-        await sessionManager.redis.setEx(`session:${token}`, sessionManager.ttl, JSON.stringify(sessionData));
-        console.log(`Session auto-saved: ${token}`);
-      } catch (error) {
-        console.error('Session auto-save failed:', error);
-      }
-    }, console);
+    this.state = createProxy(
+      data,
+      async (sessionData) => {
+        try {
+          // Update session directly in Redis without adding metadata
+          await sessionManager.redis.setEx(
+            `session:${token}`,
+            sessionManager.ttl,
+            JSON.stringify(sessionData),
+          );
+          console.log(`Session auto-saved: ${token}`);
+        } catch (error) {
+          console.error('Session auto-save failed:', error);
+        }
+      },
+      console,
+    );
   }
 }
 
@@ -141,7 +147,7 @@ class Client extends EventEmitter {
       if (!this.#transport.connection)
         this.#transport.sendSessionCookie(token, data.sessionId);
       console.log(`Session started successfully for token: ${token}`);
-      console.log(`Session data stored:`, this.session.state);
+      console.log('Session data stored:', this.session.state);
       return true;
     } catch (error) {
       console.error('Session start error:', error);
@@ -152,7 +158,7 @@ class Client extends EventEmitter {
       return true;
     }
   }
-  
+
   async finalizeSession() {
     if (!this.session) return false;
     try {
@@ -181,10 +187,12 @@ class Client extends EventEmitter {
     console.log('Client destroy called');
     console.log('Transport type:', this.#transport.constructor.name);
     this.emit('close');
-    
+
     // Don't automatically finalize sessions - let them persist in Redis
     if (this.session) {
-      console.log(`Client destroyed, session preserved in Redis: ${this.session.token}`);
+      console.log(
+        `Client destroyed, session preserved in Redis: ${this.session.token}`,
+      );
     }
   }
 }
@@ -199,23 +207,26 @@ class Server {
     const [port] = config.server.ports;
     this.listen(port);
     this.console.log(`API on port ${port}`);
-    
+
     // Setup session cleanup interval
     this.setupSessionCleanup();
   }
 
   setupSessionCleanup() {
     // Clean up expired sessions every 5 minutes
-    setInterval(async () => {
-      try {
-        const cleaned = await sessionManager.cleanupExpired();
-        if (cleaned > 0) {
-          this.console.log(`Cleaned up ${cleaned} expired sessions`);
+    setInterval(
+      async () => {
+        try {
+          const cleaned = await sessionManager.cleanupExpired();
+          if (cleaned > 0) {
+            this.console.log(`Cleaned up ${cleaned} expired sessions`);
+          }
+        } catch (error) {
+          this.console.error('Session cleanup error:', error);
         }
-      } catch (error) {
-        this.console.error('Session cleanup error:', error);
-      }
-    }, 5 * 60 * 1000); // 5 minutes
+      },
+      5 * 60 * 1000,
+    ); // 5 minutes
   }
 
   listen(port) {
@@ -236,7 +247,9 @@ class Server {
         if (!client.session) {
           client.destroy();
         } else {
-          console.log(`Preserving session for HTTP client: ${client.session.token}`);
+          console.log(
+            `Preserving session for HTTP client: ${client.session.token}`,
+          );
           // Don't destroy - let the session manager handle cleanup
         }
       });
@@ -273,10 +286,10 @@ class Server {
       client.error(400, { id, error, pass: true });
       return;
     }
-    
+
     // Resume session from cookie if available
     await this.resumeCookieSession(client);
-    
+
     const [unit, method] = packet.method.split('/');
     const proc = this.routing.get(unit + '.' + method);
     if (!proc) {
@@ -286,10 +299,10 @@ class Server {
     const context = client.createContext();
     console.log({ context });
     /* TODO: check rights
-    if (!client.session && proc.access !== 'public') {
-      client.error(403, { id });
-      return;
-    }*/
+        if (!client.session && proc.access !== 'public') {
+          client.error(403, { id });
+          return;
+        }*/
     this.console.log(`${client.ip}\t${packet.method}`);
     console.log({ packet });
     proc(context)
@@ -311,7 +324,7 @@ class Server {
     try {
       const cookies = client.getCookies();
       const sessionId = cookies['session-id'] || cookies['auth-token'];
-      
+
       if (sessionId && !client.session) {
         console.log(`Attempting to resume session from cookie: ${sessionId}`);
         const restored = await client.restoreSession(sessionId);
@@ -326,20 +339,20 @@ class Server {
 
   /**
    * Gracefully closes the server
-   * 
+   *
    * @returns {Promise<void>}
    */
   async close() {
-    return new Promise(async (resolve) => {
+    return new Promise((resolve) => {
       if (this.httpServer && !this.httpServer._closed) {
         this.httpServer._closed = true;
-        
+
         // Close session manager
-        await sessionManager.close();
-        
-        this.httpServer.close(() => {
-          this.console.log('HTTP server closed');
-          resolve();
+        sessionManager.close().then(() => {
+          this.httpServer.close(() => {
+            this.console.log('HTTP server closed');
+            resolve();
+          });
         });
       } else {
         resolve();

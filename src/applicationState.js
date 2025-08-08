@@ -2,14 +2,14 @@
 
 /**
  * ApplicationState - Centralized state management for the application
- * 
+ *
  * This class manages:
  * - Application lifecycle state
  * - Loaded modules registry
  * - Error tracking
  * - Performance metrics
  * - Health status
- * 
+ *
  * @class ApplicationState
  */
 class ApplicationState {
@@ -22,14 +22,14 @@ class ApplicationState {
       isBootstrapped: false,
       isShuttingDown: false,
       startTime: Date.now(),
-      
+
       // Module registry
       modules: new Map(),
-      
+
       // Error tracking
       errors: [],
       maxErrors: 100, // Keep last 100 errors
-      
+
       // Performance metrics
       metrics: {
         requests: 0,
@@ -37,7 +37,7 @@ class ApplicationState {
         startupTime: 0,
         memoryUsage: 0,
       },
-      
+
       // Health status
       health: {
         status: 'unknown',
@@ -66,7 +66,7 @@ class ApplicationState {
 
   /**
    * Checks if the application is bootstrapped
-   * 
+   *
    * @returns {boolean} True if application is bootstrapped
    */
   isBootstrapped() {
@@ -75,7 +75,7 @@ class ApplicationState {
 
   /**
    * Checks if the application is shutting down
-   * 
+   *
    * @returns {boolean} True if application is shutting down
    */
   isShuttingDown() {
@@ -84,7 +84,7 @@ class ApplicationState {
 
   /**
    * Adds a module to the registry
-   * 
+   *
    * @param {string} name - Module name
    * @param {Object} module - Module instance
    */
@@ -98,7 +98,7 @@ class ApplicationState {
 
   /**
    * Gets a module from the registry
-   * 
+   *
    * @param {string} name - Module name
    * @returns {Object|null} Module instance or null if not found
    */
@@ -109,7 +109,7 @@ class ApplicationState {
 
   /**
    * Gets all loaded modules
-   * 
+   *
    * @returns {Map} Map of all loaded modules
    */
   getAllModules() {
@@ -118,7 +118,7 @@ class ApplicationState {
 
   /**
    * Checks if a module is loaded
-   * 
+   *
    * @param {string} name - Module name
    * @returns {boolean} True if module is loaded
    */
@@ -128,7 +128,7 @@ class ApplicationState {
 
   /**
    * Adds an error to the error tracking
-   * 
+   *
    * @param {Error} error - Error object
    */
   addError(error) {
@@ -152,7 +152,7 @@ class ApplicationState {
 
   /**
    * Gets all tracked errors
-   * 
+   *
    * @returns {Array} Array of error entries
    */
   getErrors() {
@@ -161,7 +161,7 @@ class ApplicationState {
 
   /**
    * Gets recent errors (last N errors)
-   * 
+   *
    * @param {number} count - Number of recent errors to return
    * @returns {Array} Array of recent error entries
    */
@@ -186,7 +186,7 @@ class ApplicationState {
 
   /**
    * Gets current performance metrics
-   * 
+   *
    * @returns {Object} Current metrics
    */
   getMetrics() {
@@ -209,7 +209,7 @@ class ApplicationState {
 
   /**
    * Updates the health status
-   * 
+   *
    * @param {string} status - Health status ('healthy', 'degraded', 'unhealthy', 'shutting_down')
    */
   updateHealthStatus(status) {
@@ -219,7 +219,7 @@ class ApplicationState {
 
   /**
    * Adds a health check
-   * 
+   *
    * @param {string} name - Health check name
    * @param {Function} checkFn - Health check function
    */
@@ -233,7 +233,7 @@ class ApplicationState {
 
   /**
    * Runs all health checks
-   * 
+   *
    * @returns {Promise<Object>} Health check results
    */
   async runHealthChecks() {
@@ -256,7 +256,7 @@ class ApplicationState {
     }
 
     // Update overall health status
-    const allHealthy = Object.values(results).every(result => result.healthy);
+    const allHealthy = Object.values(results).every((result) => result.healthy);
     this.updateHealthStatus(allHealthy ? 'healthy' : 'degraded');
 
     return results;
@@ -264,7 +264,7 @@ class ApplicationState {
 
   /**
    * Gets current health status
-   * 
+   *
    * @returns {Object} Health status information
    */
   getHealthStatus() {
@@ -278,7 +278,7 @@ class ApplicationState {
 
   /**
    * Gets application status summary
-   * 
+   *
    * @returns {Object} Complete application status
    */
   getStatus() {
@@ -318,4 +318,4 @@ class ApplicationState {
   }
 }
 
-module.exports = { ApplicationState }; 
+module.exports = { ApplicationState };

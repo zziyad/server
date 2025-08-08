@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-pure",
+  "name": "server",
   "version": "13.0.0",
   "description": "Pure NodeJS application runtime",
   "license": "MIT",

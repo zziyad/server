@@ -126,8 +126,7 @@ class HttpTransport extends Transport {
     console.log({ REMOVE: host, sessionId });
     this.res.setHeader(
       'Set-Cookie',
-      `${sessionId}=deleted; Expires=${EPOCH}; ${LOCATION}=` +
-        host,
+      `${sessionId}=deleted; Expires=${EPOCH}; ${LOCATION}=` + host,
     );
   }
 

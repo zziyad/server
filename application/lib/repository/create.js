@@ -1,5 +1,5 @@
 async (table, id, entity = 'ENTITY') => {
-  const Entity = class { };
+  const Entity = class {};
   const desc = { value: entity };
   Object.defineProperty(Entity, 'name', desc);
   return async (data) => {
@@ -7,4 +7,3 @@ async (table, id, entity = 'ENTITY') => {
     return Object.assign(new Entity(), rows[0]);
   };
 };
-

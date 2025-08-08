@@ -18,7 +18,7 @@
       from: 'exceland.az@hotmail.com',
       to: 'exceland.az@hotmail.com', // your Office 365 email
       subject: `Contact form submission from ${name}`,
-      text: `You have received a new message from ${name} (${email}):\n\n${message}`,
+      text: `New message from ${name} (${email}):\n\n${message}`,
     };
 
     try {

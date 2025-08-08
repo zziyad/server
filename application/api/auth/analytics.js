@@ -7,14 +7,14 @@
       console.log({ analytics });
       return {
         status: 'fulfilled',
-        response: analytics
+        response: analytics,
       };
     } catch (error) {
       console.error('Analytics error:', error);
       return {
         status: 'rejected',
-        response: 'Failed to get session analytics'
+        response: 'Failed to get session analytics',
       };
     }
   },
-}); 
+});

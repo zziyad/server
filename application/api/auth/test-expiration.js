@@ -3,11 +3,11 @@
   method: async () => {
     try {
       console.log('=== TESTING SESSION EXPIRATION ===');
-      
+
       if (!context.client.session) {
         return {
           status: 'rejected',
-          response: 'No active session found'
+          response: 'No active session found',
         };
       }
 
@@ -16,21 +16,20 @@
 
       // Manually invalidate the session to simulate expiration
       await context.client.finalizeSession();
-      
+
       console.log('Session manually expired for testing');
       console.log('=== END TEST ===');
 
       return {
         status: 'fulfilled',
-        response: 'Session expired for testing'
+        response: 'Session expired for testing',
       };
-
     } catch (error) {
       console.error('Expiration test error:', error);
       return {
         status: 'rejected',
-        response: 'Test failed: ' + error.message
+        response: 'Test failed: ' + error.message,
       };
     }
   },
-}); 
+});

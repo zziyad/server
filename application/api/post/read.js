@@ -1,7 +1,7 @@
 ({
   access: 'public',
   method: async (postObject) => {
-    console.log({ ID: postObject.postId })
+    console.log({ ID: postObject.postId });
     if (postObject.limit === 1 && postObject.postId === null) {
       return {
         status: 'rejected',

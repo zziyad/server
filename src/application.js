@@ -5,25 +5,29 @@ const { ApplicationState } = require('./applicationState.js');
 const { BootstrapErrorHandler } = require('./errorHandler.js');
 
 /**
- * Application - Main application class that orchestrates the entire application lifecycle
- * 
+ * Application - Main application class that orchestrates the
+ *  entire application lifecycle
+ *
  * This class provides:
  * - Application lifecycle management
  * - Bootstrap orchestration
  * - Error handling and recovery
  * - Health monitoring
  * - Graceful shutdown
- * 
+ *
  * @class Application
  */
 class Application {
   /**
    * Creates a new Application instance
-   * 
+   *
    * @param {Object} options - Application options
-   * @param {boolean} options.enableHealthChecks - Enable health checks (default: true)
-   * @param {boolean} options.enableGracefulShutdown - Enable graceful shutdown (default: true)
-   * @param {number} options.healthCheckInterval - Health check interval in ms (default: 30000)
+   * - Enable health checks (default: true)
+   * @param {boolean} options.enableHealthChecks
+   * - Enable graceful shutdown (default: true)
+   * @param {boolean} options.enableGracefulShutdown
+   * - Health check interval in ms (default: 30000)
+   * @param {number} options.healthCheckInterval
    */
   constructor(options = {}) {
     this.options = {
@@ -41,7 +45,7 @@ class Application {
 
   /**
    * Starts the application
-   * 
+   *
    * @returns {Promise<void>}
    * @throws {Error} If application fails to start
    */
@@ -52,16 +56,13 @@ class Application {
 
     try {
       console.log('Starting application...');
-      
+
       // Bootstrap the application with retry logic
-      await BootstrapErrorHandler.withRetry(
-        () => this.bootstrap.bootstrap(),
-        {
-          maxRetries: 3,
-          baseDelay: 2000,
-          maxDelay: 10000,
-        }
-      );
+      await BootstrapErrorHandler.withRetry(() => this.bootstrap.bootstrap(), {
+        maxRetries: 3,
+        baseDelay: 2000,
+        maxDelay: 10000,
+      });
 
       // Mark application as bootstrapped
       this.state.setBootstrapped();
@@ -71,7 +72,7 @@ class Application {
       if (this.options.enableGracefulShutdown) {
         BootstrapErrorHandler.handleGracefulShutdown(
           this.bootstrap.application,
-          this.state
+          this.state,
         );
       }
 
@@ -82,7 +83,6 @@ class Application {
 
       console.log('Application started successfully');
       console.log(`Health status: ${this.state.getHealthStatus().status}`);
-      
     } catch (error) {
       BootstrapErrorHandler.logError(error, 'Application.start');
       this.state.addError(error);
@@ -92,7 +92,7 @@ class Application {
 
   /**
    * Stops the application gracefully
-   * 
+   *
    * @returns {Promise<void>}
    */
   async stop() {
@@ -103,7 +103,7 @@ class Application {
 
     try {
       console.log('Stopping application...');
-      
+
       // Stop health checks
       if (this.healthCheckInterval) {
         clearInterval(this.healthCheckInterval);
@@ -112,10 +112,9 @@ class Application {
 
       // Shutdown bootstrap
       await this.bootstrap.shutdown();
-      
+
       this.isRunning = false;
       console.log('Application stopped successfully');
-      
     } catch (error) {
       BootstrapErrorHandler.logError(error, 'Application.stop');
       this.state.addError(error);
@@ -125,7 +124,7 @@ class Application {
 
   /**
    * Restarts the application
-   * 
+   *
    * @returns {Promise<void>}
    */
   async restart() {
@@ -140,7 +139,9 @@ class Application {
    */
   setupHealthChecks() {
     // Add basic health checks
-    this.state.addHealthCheck('application', () => this.checkApplicationHealth());
+    this.state.addHealthCheck('application', () =>
+      this.checkApplicationHealth(),
+    );
     this.state.addHealthCheck('memory', () => this.checkMemoryHealth());
     this.state.addHealthCheck('modules', () => this.checkModulesHealth());
 
@@ -153,19 +154,21 @@ class Application {
       }
     }, this.options.healthCheckInterval);
 
-    console.log(`Health checks enabled (interval: ${this.options.healthCheckInterval}ms)`);
+    console.log(
+      `Health checks enabled (interval: ${this.options.healthCheckInterval}ms)`,
+    );
   }
 
   /**
    * Checks application health
-   * 
+   *
    * @returns {Promise<Object>} Health check result
    */
   async checkApplicationHealth() {
     try {
       const isBootstrapped = this.state.isBootstrapped();
       const isShuttingDown = this.state.isShuttingDown();
-      
+
       return {
         healthy: isBootstrapped && !isShuttingDown,
         details: {
@@ -184,7 +187,7 @@ class Application {
 
   /**
    * Checks memory health
-   * 
+   *
    * @returns {Promise<Object>} Health check result
    */
   async checkMemoryHealth() {
@@ -215,7 +218,7 @@ class Application {
 
   /**
    * Checks modules health
-   * 
+   *
    * @returns {Promise<Object>} Health check result
    */
   async checkModulesHealth() {
@@ -241,7 +244,7 @@ class Application {
 
   /**
    * Gets application status
-   * 
+   *
    * @returns {Object} Application status
    */
   getStatus() {
@@ -253,7 +256,7 @@ class Application {
 
   /**
    * Gets application metrics
-   * 
+   *
    * @returns {Object} Application metrics
    */
   getMetrics() {
@@ -262,7 +265,7 @@ class Application {
 
   /**
    * Gets application health status
-   * 
+   *
    * @returns {Object} Health status
    */
   getHealthStatus() {
@@ -271,7 +274,7 @@ class Application {
 
   /**
    * Gets recent errors
-   * 
+   *
    * @param {number} count - Number of recent errors to return
    * @returns {Array} Recent errors
    */
@@ -281,7 +284,7 @@ class Application {
 
   /**
    * Gets a module from the application
-   * 
+   *
    * @param {string} name - Module name
    * @returns {Object|null} Module instance or null if not found
    */
@@ -291,7 +294,7 @@ class Application {
 
   /**
    * Checks if a module is loaded
-   * 
+   *
    * @param {string} name - Module name
    * @returns {boolean} True if module is loaded
    */
@@ -301,7 +304,7 @@ class Application {
 
   /**
    * Gets the application instance from bootstrap
-   * 
+   *
    * @returns {Object|null} Application instance or null if not bootstrapped
    */
   getApplicationInstance() {
@@ -309,4 +312,4 @@ class Application {
   }
 }
 
-module.exports = { Application }; 
+module.exports = { Application };

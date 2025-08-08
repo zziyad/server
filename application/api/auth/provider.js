@@ -27,15 +27,15 @@
     username,
     email,
     password,
-    profile_picture = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    is_admin = false,
+    profilePicture = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+    isAdmin = false,
   ) {
     return db.pg.insert('users', {
       username,
       email,
       password,
-      profile_picture,
-      is_admin,
+      profilePicture,
+      isAdmin,
     });
   },
 

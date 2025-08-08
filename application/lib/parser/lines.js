@@ -51,9 +51,9 @@ async (line) => {
 
     const guestLastName = parts[startIndex + 1];
 
-    return guestFirstName && guestLastName ?
-      `${guestFirstName} ${guestLastName}`.trim() :
-      '';
+    return guestFirstName && guestLastName
+      ? `${guestFirstName} ${guestLastName}`.trim()
+      : '';
   };
 
   const lineToObject = (line) => {

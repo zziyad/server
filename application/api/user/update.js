@@ -1,16 +1,11 @@
 ({
   access: 'admin',
-  method: async ({
-    id,
-    profile_picture = '',
-    username = '',
-    password = '',
-  }) => {
+  method: async ({ id, profilePicture = '', username = '', password = '' }) => {
     const target = {};
 
     console.log({
       id,
-      profile_picture,
+      profilePicture,
       username,
       password,
     });
@@ -47,7 +42,7 @@
       target['username'] = username;
     }
 
-    if (profile_picture !== '') target['profile_picture'] = profile_picture;
+    if (profilePicture !== '') target['profile_picture'] = profilePicture;
 
     if (JSON.stringify(target) === '{}') {
       return { status: 'rejected', response: 'No fields have been updated' };
@@ -58,7 +53,7 @@
       if (!user) {
         return { status: 'rejected', response: 'User not found' };
       }
-      const { password: existingPassword, ...restOfUser } = user;
+      const { password: existingPassword } = user;
 
       if (password !== '' && password === existingPassword) {
         delete target.password;

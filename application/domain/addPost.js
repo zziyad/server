@@ -3,7 +3,7 @@
   method: async (post) => {
     try {
       const result = await domain.Post.add(context, post);
-      return { status: 'fulfilled', result: result };
+      return { status: 'fulfilled', result };
     } catch (error) {
       console.error(error);
       return {

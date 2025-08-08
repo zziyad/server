@@ -11,12 +11,15 @@ class Place {
 
   async load(targetPath = this.path) {
     await metarhia.metautil.ensureDirectory(this.path);
-    
+
     // Only use watcher if it's available
-    if (this.application.watcher && typeof this.application.watcher.watch === 'function') {
+    if (
+      this.application.watcher &&
+      typeof this.application.watcher.watch === 'function'
+    ) {
       this.application.watcher.watch(targetPath);
     }
-    
+
     try {
       const files = await node.fsp.readdir(targetPath, { withFileTypes: true });
       for (const file of files) {

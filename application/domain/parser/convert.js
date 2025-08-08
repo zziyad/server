@@ -1,5 +1,5 @@
 async (data) => {
-//   console.log({ domaindData: data });
+  //   console.log({ domaindData: data });
   const headers = [
     'Room Number',
     'Room Type',

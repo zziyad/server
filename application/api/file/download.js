@@ -4,38 +4,9 @@
     try {
       const resourcesPath = node.path.join(application.path, './resources');
       const filePath = node.path.join(resourcesPath, 'report.csv');
-      const csvStream = node.fs.createWriteStream(filePath); 
-      const fileRead = `/home/zi/Documents/programming/divAcademy/server/${fileName}`;
+      const csvStream = node.fs.createWriteStream(filePath);
+      const fileRead = `/server/${fileName}`;
       const data = await node.fsp.readFile(fileRead, 'utf8');
-
-      const lineToObject = (line) => {
-        if (!line.startsWith(',')) return null;
-        const parts = line.split(',');
-        const roomN = parts[1].length === 1 ? parts[2] : parts[1];
-        if (!roomN || roomN.length !== 3) return null;
-        let index = roomN === parts[1] ? 2 : 3;
-        const roomT = parts[index++];
-        if (!roomT) return null;
-        const [foStatus, hkStatus] = extractStatuses(parts, index);
-        if (!foStatus || !hkStatus) return null;
-        index += foStatus && hkStatus ? 2 : 0;
-        if (foStatus === 'VAC') {
-          return {
-            roomN,
-            roomT,
-            foStatus,
-            hkStatus,
-            arrDay: '',
-            depDay: '',
-            guest: '',
-          };
-        }
-        const [arrDay, depDay] = extractArrivalDepartureDays(parts, index);
-        if (!arrDay || !depDay) return null;
-        index += arrDay && depDay ? 2 : 0;
-        const guest = extractGuestName(parts, index);
-        return { roomN, roomT, foStatus, hkStatus, arrDay, depDay, guest };
-      };
 
       const extractStatuses = (parts, startIndex) => {
         let foStatus = '';
@@ -51,7 +22,8 @@
           ) {
             hkStatus = part;
           }
-          if (foStatus && hkStatus) break; // Stop loop early when both are found
+          // Stop loop early when both are found
+          if (foStatus && hkStatus) break;
         }
 
         return [foStatus, hkStatus];
@@ -83,6 +55,35 @@
         return guestFirstName && guestLastName
           ? `${guestFirstName} ${guestLastName}`.trim()
           : '';
+      };
+
+      const lineToObject = (line) => {
+        if (!line.startsWith(',')) return null;
+        const parts = line.split(',');
+        const roomN = parts[1].length === 1 ? parts[2] : parts[1];
+        if (!roomN || roomN.length !== 3) return null;
+        let index = roomN === parts[1] ? 2 : 3;
+        const roomT = parts[index++];
+        if (!roomT) return null;
+        const [foStatus, hkStatus] = extractStatuses(parts, index);
+        if (!foStatus || !hkStatus) return null;
+        index += foStatus && hkStatus ? 2 : 0;
+        if (foStatus === 'VAC') {
+          return {
+            roomN,
+            roomT,
+            foStatus,
+            hkStatus,
+            arrDay: '',
+            depDay: '',
+            guest: '',
+          };
+        }
+        const [arrDay, depDay] = extractArrivalDepartureDays(parts, index);
+        if (!arrDay || !depDay) return null;
+        index += arrDay && depDay ? 2 : 0;
+        const guest = extractGuestName(parts, index);
+        return { roomN, roomT, foStatus, hkStatus, arrDay, depDay, guest };
       };
 
       const parseData = (input) =>

@@ -1,6 +1,4 @@
 ({
   access: 'public',
-  method: async () => {
-    return { status: 'fulfilled', response: 'Hello World' };
-  },
+  method: async () => ({ status: 'fulfilled', response: 'Hello World' }),
 });

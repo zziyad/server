@@ -4,16 +4,19 @@ const { Application } = require('./src/application.js');
 
 /**
  * Main application entry point
- * 
- * This file initializes and starts the application using the new modular architecture.
- * The Application class handles all the complexity of bootstrap, error handling,
+ *
+ * This file initializes and starts the application using the new modular
+ *  architecture.
+ * The Application class handles all the complexity of bootstrap, error
+ *  handling,
  * health monitoring, and graceful shutdown.
+ *
  */
 
 // Create application instance with default options
 const app = new Application({
-  enableHealthChecks: true,
-  enableGracefulShutdown: true,
+  enableHealthChecks: false,
+  enableGracefulShutdown: false,
   healthCheckInterval: 30000, // 30 seconds
 });
 
@@ -21,7 +24,7 @@ const app = new Application({
 async function startApplication() {
   try {
     await app.start();
-    
+
     // Log application status
     const status = app.getStatus();
     console.log('Application Status:', {
@@ -31,7 +34,6 @@ async function startApplication() {
       uptime: status.health.uptime,
       modules: status.modules,
     });
-    
   } catch (error) {
     console.error('Failed to start application:', error.message);
     process.exit(1);
