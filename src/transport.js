@@ -1,9 +1,14 @@
-/* eslint-disable max-len */
 'use strict';
 
 const http = require('node:http');
-const metautil = require('metautil');
 const { Readable } = require('node:stream');
+const { EventEmitter } = require('node:events');
+const metautil = require('metautil');
+const {
+  buildCookieHeader,
+  buildCorsHeaders,
+  buildSecurityHeaders,
+} = require('../lib/common.js');
 
 const MIME_TYPES = {
   html: 'text/html; charset=UTF-8',
@@ -15,45 +20,30 @@ const MIME_TYPES = {
   svg: 'image/svg+xml',
 };
 
-const HEADERS = {
-  'X-XSS-Protection': '1; mode=block',
-  'X-Content-Type-Options': 'nosniff',
-  'Strict-Transport-Security': 'max-age=31536000; includeSubdomains; preload',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type Authorization',
-};
-
-// const TOKEN = 'token';
-const EPOCH = 'Thu, 01 Jan 1970 00:00:00 GMT';
-const FUTURE = 'Fri, 01 Jan 2100 00:00:00 GMT';
-const LOCATION = 'Path=/; Domain';
-// const COOKIE_DELETE = `${TOKEN}=deleted; Expires=${EPOCH}; ${LOCATION}=`;
-const COOKIE_HOST = `Expires=${FUTURE}; ${LOCATION}`;
-
-class Transport {
+class Transport extends EventEmitter {
   constructor(server, req) {
+    super();
     this.server = server;
+    this.console = server.console;
     this.req = req;
     this.ip = req.socket.remoteAddress;
   }
 
+  getHeader(name) {
+    return this.req.headers[String(name || '').toLowerCase()];
+  }
+
   error(code = 500, { id, error = null, httpCode = null } = {}) {
-    const { console } = this.server;
-    const { url, method } = this.req;
-    if (!httpCode) httpCode = error?.httpCode || code;
+    const rawHttpCode = httpCode || error?.httpCode || code;
+    httpCode = Number.isInteger(rawHttpCode) ? rawHttpCode : 500;
     const status = http.STATUS_CODES[httpCode];
-    const pass = httpCode < 500 || httpCode > 599;
-    const message = pass ? error?.message : status || 'Unknown error';
-    const reason = `${code}\t${error ? error.stack : status}`;
-    console.error(`${this.ip}\t${method}\t${url}\t${reason}`);
+    const message = httpCode < 500 ? error?.message || status : status;
     const packet = { type: 'callback', id, error: { message, code, status } };
-    this.send(packet, httpCode);
+    this.write(JSON.stringify(packet), httpCode, 'json');
   }
 
   send(obj, code = 200) {
-    const data = JSON.stringify(obj);
-    this.write(data, code, 'json');
+    this.write(JSON.stringify(obj), code, 'json');
   }
 }
 
@@ -61,38 +51,34 @@ class HttpTransport extends Transport {
   constructor(server, req, res) {
     super(server, req);
     this.res = res;
-    if (req.method === 'OPTIONS') {
-      console.log({ REQ: req.method });
-      this.options();
-    }
-    req.on('close', () => {
-      console.log('CLOSE');
-    });
+    if (req.method === 'OPTIONS') this.options();
+    res.on('finish', () => this.emit('close'));
   }
 
   options() {
-    const { res } = this;
-    if (res.headersSent) return;
-    res.writeHead(204, HEADERS);
-    res.end();
+    if (this.res.headersSent) return;
+    const origin = this.req.headers.origin;
+    this.res.writeHead(204, {
+      ...buildCorsHeaders(origin, this.server.application),
+      ...buildSecurityHeaders(),
+    });
+    this.res.end();
   }
 
-  async write(data, httpCode = 200, ext = 'json', options = {}) {
-    const { res } = this;
-    if (res.writableEnded) return;
-    const streaming = data instanceof Readable;
-    const mimeType = MIME_TYPES[ext] || MIME_TYPES.html;
-    const headers = { ...HEADERS, 'Content-Type': mimeType };
-    if (httpCode === 206) {
-      const { start, end, size = '*' } = options;
-      headers['Content-Range'] = `bytes ${start}-${end}/${size}`;
-      headers['Accept-Ranges'] = 'bytes';
-      headers['Content-Length'] = end - start + 1;
+  write(data, httpCode = 200, ext = 'json') {
+    if (this.res.writableEnded) return;
+    const origin = this.req.headers.origin;
+    const headers = {
+      ...buildCorsHeaders(origin, this.server.application),
+      ...buildSecurityHeaders(),
+      'Content-Type': MIME_TYPES[ext] || MIME_TYPES.html,
+    };
+    if (!(data instanceof Readable)) {
+      headers['Content-Length'] = Buffer.byteLength(data);
     }
-    if (!streaming) headers['Content-Length'] = data.length;
-    res.writeHead(httpCode, headers);
-    if (streaming) data.pipe(res);
-    else res.end(data);
+    this.res.writeHead(httpCode, headers);
+    if (data instanceof Readable) data.pipe(this.res);
+    else this.res.end(data);
   }
 
   getCookies() {
@@ -101,40 +87,37 @@ class HttpTransport extends Transport {
     return metautil.parseCookies(cookie);
   }
 
-  // sendSessionCookie(token) {
-  //   const host = metautil.parseHost(this.req.headers.host);
-  //   let cookie = `${TOKEN}=${token}; ${COOKIE_HOST}=${host}`;
-  //   cookie += '; HttpOnly';
-  //   this.res.setHeader('Set-Cookie', cookie);
-  // }
+  getUserAgent() {
+    return this.req.headers['user-agent'] || '';
+  }
 
-  sendSessionCookie(token, sid) {
-    const host = metautil.parseHost(this.req.headers.host);
-    const futureDate = new Date(Date.now() + 1 * 60 * 60 * 1000);
+  getOrigin() {
+    return this.req.headers.origin;
+  }
 
-    // + 7 * 60 * 60 * 1000,
-    console.log({ futureDate });
-    const maxAgeSeconds = 1 * 60 * 60;
-    let cookie = `${sid}=${token}; Max-Age=${maxAgeSeconds}; Expires=${futureDate.toUTCString()}; ${COOKIE_HOST}=${host};`; // Add Secure attribute
-    cookie += '; HttpOnly';
-    console.log({ cookie });
+  sendSessionCookie(sessionId, ttl) {
+    const cookie = buildCookieHeader({
+      name: 'session_id',
+      value: sessionId,
+      maxAgeSeconds: ttl,
+      path: '/',
+      httpOnly: true,
+      sameSite: this.server.isHttps ? 'None' : 'Lax',
+      secure: this.server.isHttps === true,
+    });
+    this.res.appendHeader?.('Set-Cookie', cookie) ||
+      this.res.setHeader('Set-Cookie', cookie);
+  }
+
+  clearSessionCookies() {
+    const cookie = buildCookieHeader({
+      name: 'session_id',
+      value: 'deleted',
+      maxAgeSeconds: 0,
+      path: '/',
+      httpOnly: true,
+    });
     this.res.setHeader('Set-Cookie', cookie);
-  }
-
-  removeSessionCookie(sessionId) {
-    const host = metautil.parseHost(this.req.headers.host);
-    console.log({ REMOVE: host, sessionId });
-    this.res.setHeader(
-      'Set-Cookie',
-      `${sessionId}=deleted; Expires=${EPOCH}; ${LOCATION}=` + host,
-    );
-  }
-
-  redirect(location) {
-    const { res } = this;
-    if (res.headersSent) return;
-    res.writeHead(302, { Location: location, ...HEADERS });
-    res.end();
   }
 }
 
@@ -142,11 +125,48 @@ class WsTransport extends Transport {
   constructor(server, req, connection) {
     super(server, req);
     this.connection = connection;
+    connection.on('close', () => this.emit('close'));
+  }
+
+  getCookies() {
+    const { cookie } = this.req.headers;
+    if (!cookie) return {};
+    return metautil.parseCookies(cookie);
+  }
+
+  getUserAgent() {
+    return this.req.headers['user-agent'] || '';
   }
 
   write(data) {
     this.connection.send(data);
   }
+
+  sendBinary(data) {
+    this.connection.send(data);
+  }
+
+  sendStreamChunk(streamId, chunk) {
+    const idBuffer = Buffer.from(streamId, 'utf8');
+    const message = Buffer.concat([Buffer.from([idBuffer.length]), idBuffer, chunk]);
+    this.sendBinary(message);
+  }
+
+  handleBinary(data, client) {
+    const idLength = data[0];
+    const streamId = data.slice(1, 1 + idLength).toString('utf8');
+    const chunkData = data.slice(1 + idLength);
+    const stream = client.streams.get(streamId);
+    if (stream) {
+      stream.bytesReceived += chunkData.length;
+      stream.writable.write(chunkData);
+    }
+  }
+
+  close() {
+    this.connection.terminate();
+    this.emit('close');
+  }
 }
 
-module.exports = { Transport, HttpTransport, WsTransport, MIME_TYPES, HEADERS };
+module.exports = { Transport, HttpTransport, WsTransport, MIME_TYPES };
