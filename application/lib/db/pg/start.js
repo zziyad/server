@@ -1,31 +1,17 @@
 async () => {
-  const { Pool } = npm.pg;
-  // const { loadModel } = metarhia.metaschema;
-  // const schemaPath = '/../NodeJS-Application/schemas';
+  if (!npm.pg) {
+    console.system('Postgres driver is not installed, skip db');
+    return;
+  }
 
-  // const types = {
-  //   string: { metadata: { pg: 'varchar' } },
-  //   number: { metadata: { pg: 'integer' } },
-  //   boolean: { metadata: { pg: 'boolean' } },
-  //   datetime: { js: 'string', metadata: { pg: 'timestamp with time zone' } },
-  //   text: { js: 'string', metadata: { pg: 'text' } },
-  //   json: { js: 'schema', metadata: { pg: 'jsonb' } },
-  // };
-
-  // const model = await loadModel(
-  //   node.process.cwd() + schemaPath,
-  //   types,
-  // );
-
-  const { Database, Query } = metarhia.metasql;
-
-  const options = { ...config.database };
-  const pool = new Pool(options);
-  db.client = await pool.connect();
-  db.query = Query;
-  db.pg = new Database(options);
-  const {
-    rows: [{ now }],
-  } = await this.db.pg.query('SELECT now()');
-  console.system(`Connected to pg at ${new Date(now).toLocaleTimeString()}`);
+  try {
+    const { Pool } = npm.pg;
+    const pool = new Pool({ ...config.database });
+    const result = await pool.query('SELECT now() AS now');
+    db.pg = pool;
+    db.client = pool;
+    console.system(`Connected to pg at ${result.rows[0].now}`);
+  } catch (error) {
+    console.error('Postgres unavailable, continuing without db:', error.message);
+  }
 };
