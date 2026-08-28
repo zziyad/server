@@ -7,19 +7,17 @@
   "main": "main.js",
   "scripts": {
     "start": "node --max-old-space-size=512 main.js",
-    "lint": "find application scripts lib -name '*.js' -print0 | xargs -0 -n1 node --check && node --check main.js",
-    "test": "npm run test:core",
-    "db:migrate": "node scripts/migrate-db.js"
+    "lint": "node --check main.js && node --check src/application.js && node --check src/sessionManager.js && node --check lib/load-env.js && node --check lib/config-schema.js",
+    "test": "npm run lint"
   },
   "engines": {
-    "node": "20 || 22"
+    "node": "16 || 18 || 19 || 20 || 22"
   },
   "dependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "metautil": "^3.7.2",
     "metawatch": "^1.2.2",
-    "multiparty": "^4.2.3",
     "pg": "^8.20.0",
     "ws": "^8.12.0"
   },

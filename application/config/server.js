@@ -1,12 +1,24 @@
+const parseList = (value) =>
+  String(value || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+const defaultAllowedOrigins = [
+  'http://127.0.0.1:8091',
+  'http://localhost:8091',
+];
+const envAllowedOrigins = parseList(node.process.env.CORS_ALLOWED_ORIGINS);
+const publicOrigin = String(node.process.env.PUBLIC_ORIGIN || '').trim();
+
 ({
-  host: '0.0.0.0',
-  balancer: 8000,
+  host: node.process.env.HOST || '127.0.0.1',
   protocol: 'http',
-  ports: [8001],
+  ports: [parseInt(node.process.env.PORT || '8091', 10)],
   nagle: false,
   timeouts: {
     bind: 2000,
-    start: 30000,
+    start: 15000,
     stop: 5000,
     request: 5000,
     watch: 1000,
@@ -16,17 +28,17 @@
     size: 2000,
     timeout: 3000,
   },
-  scheduler: {
-    concurrency: 10,
-    size: 2000,
-    timeout: 3000,
-  },
-  workers: {
-    pool: 2,
-    wait: 2000,
-    timeout: 5000,
+  tls: {
+    enabled: false,
   },
   cors: {
-    origin: '*',
+    allowLocalhostLoopback: true,
+    allowedOrigins: [
+      ...defaultAllowedOrigins,
+      ...(publicOrigin ? [publicOrigin] : []),
+      ...envAllowedOrigins,
+    ],
+    allowCredentials: true,
+    maxAge: 86400,
   },
 });
