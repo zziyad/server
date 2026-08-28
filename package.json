@@ -1,35 +1,31 @@
 {
-  "name": "server",
-  "version": "13.0.0",
-  "description": "Pure NodeJS application runtime",
+  "name": "index-search-server",
+  "version": "0.1.0",
+  "description": "Minimal server-based index/search layer prototype",
   "license": "MIT",
   "private": true,
   "main": "main.js",
   "scripts": {
-    "test": "npm run lint && tsc",
-    "lint": "eslint . && prettier -c \"**/*.js\" \"**/*.ts\"",
-    "fmt": "prettier --write \"**/*.js\" \"**/*.ts\""
+    "start": "node --max-old-space-size=512 main.js",
+    "lint": "node --check main.js && node --check src/application.js && node --check src/sessionManager.js && node --check lib/load-env.js && node --check lib/config-schema.js",
+    "test": "npm run lint"
   },
   "engines": {
-    "node": "16 || 18 || 19 || 20"
+    "node": "16 || 18 || 19 || 20 || 22"
   },
   "dependencies": {
-    "metasql": "^3.0.0-alpha.3",
-    "metautil": "^5.3.0",
-    "metawatch": "^1.2.3",
-    "pg": "^8.11.1",
-    "redis": "^5.8.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "metautil": "^3.7.2",
+    "metawatch": "^1.2.2",
+    "pg": "^8.20.0",
     "ws": "^8.12.0"
   },
   "devDependencies": {
-    "@types/node": "^20.4.4",
-    "@types/pg": "^8.10.2",
-    "@types/ws": "^8.5.5",
-    "eslint": "^8.45.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "@types/node": "^18.11.18",
+    "@types/ws": "^8.5.4",
+    "eslint": "^8.31.0",
+    "prettier": "^2.8.2",
+    "typescript": "^5.0.4"
   }
 }
